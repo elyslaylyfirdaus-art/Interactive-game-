@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detective Inspector: English Masterclass</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4318FF;
+      --primary-dark: #2B0CB3;
+      --secondary: #00B5D8;
+      --accent: #FFB547;
+      --bg-color: #F4F7FE;
+      --surface: #FFFFFF;
+      --text-main: #2B3674;
+      --text-muted: #A3AED0;
+      --success: #05CD99;
+      --error: #EE5D50;
+      --border-radius: 20px;
+      --shadow-soft: 0px 18px 40px rgba(112, 144, 176, 0.12);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--primary);
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-outline {
+      background: var(--surface);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: var(--surface);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--surface);
+      box-shadow: 0px 10px 20px rgba(67, 24, 255, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    /* Views */
+    .view {
+      display: none;
+      opacity: 0;
+      transform: scale(0.98);
+      transition: var(--transition);
+    }
+
+    .view.active {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border-radius: var(--border-radius);
+      padding: 32px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 24px;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      text-align: center;
+      padding: 48px 24px;
+      border-radius: var(--border-radius);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto 24px auto;
+    }
+
+    .badge-diff {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 16px;
+      backdrop-filter: blur(5px);
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* Tabs for Study Material */
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .tab-btn {
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: var(--bg-color);
+      color: var(--text-muted);
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0px 4px 15px rgba(67, 24, 255, 0.2);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Game UI */
+    .game-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      padding: 16px 24px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 24px;
+    }
+
+    .hud-stat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 12px;
+      background: var(--bg-color);
+      border-radius: 10px;
+      margin: 0 30px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      width: 0%;
+      transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border-radius: 10px;
+    }
+
+    /* Options */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .option {
+      background: var(--bg-color);
+      border: 2px solid transparent;
+      padding: 18px 24px;
+      border-radius: 16px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .option:hover:not(.disabled) {
+      border-color: var(--primary);
+      background: rgba(67, 24, 255, 0.05);
+      transform: translateX(5px);
+    }
+
+    .option.correct {
+      background: rgba(5, 205, 153, 0.1);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .option.wrong {
+      background: rgba(238, 93, 80, 0.1);
+      border-color: var(--error);
+      color: var(--error);
+    }
+
+    .option.disabled {
+      pointer-events: none;
+    }
+
+    /* Spot the Difference Layout */
+    .comparison-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .testimony {
+      background: #FAFCFF;
+      border: 2px dashed #D2D6DC;
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .testimony h4 {
+      color: var(--primary);
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+
+    /* Feedback Box */
+    .feedback {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 16px;
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .feedback.active {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .feedback.correct {
+      background: rgba(5, 205, 153, 0.1);
+      border-left: 5px solid var(--success);
+    }
+
+    .feedback.wrong {
+      background: rgba(238, 93, 80, 0.1);
+      border-left: 5px solid var(--error);
+    }
+
+    /* Timer */
+    .timer-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 800;
+      color: var(--primary);
+      border: 3px solid var(--primary);
+      transition: var(--transition);
+    }
+
+    .timer-circle.warning {
+      color: var(--error);
+      border-color: var(--error);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* Confetti Canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="container">
+    <header>
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13h-13L12 6.5z"/></svg>
+        Insight Academy
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="showView('home')">Home</button>
+        <button class="btn btn-outline" onclick="showView('study')">Study Material</button>
+        <button class="btn btn-primary" onclick="initGame()">Start Mission</button>
+      </div>
+    </header>
+
+    <!-- HOME VIEW -->
+    <main id="home" class="view active">
+      <div class="hero">
+        <div class="badge-diff">Grade 8 • Hard Mode</div>
+        <h1>The Inspector's Log: Operation Syntax</h1>
+        <p>Master English grammar by analyzing testimonies, spotting inconsistencies, and resolving the ultimate story chain. Precision and speed are required.</p>
+        <button class="btn btn-primary" style="background: white; color: var(--primary); margin-top: 16px; font-size: 1.1rem; padding: 14px 32px;" onclick="initGame()">Enter The Simulation (30 Stages)</button>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2 style="margin-bottom: 16px; color: var(--primary);">Learning Objectives</h2>
+          <ul style="color: var(--text-muted); padding-left: 20px;">
+            <li style="margin-bottom: 10px;">Accurately describe physical features and complex personality traits.</li>
+            <li style="margin-bottom: 10px;">Master negative prefixes (un-, dis-, im-, in-, ir-, il-) in challenging contexts.</li>
+            <li style="margin-bottom: 10px;">Differentiate between Present Simple and Present Continuous, especially with stative and dynamic verbs.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2 style="margin-bottom: 16px; color: var(--primary);">How to Play</h2>
+          <ul style="color: var(--text-muted); padding-left: 20px;">
+            <li style="margin-bottom: 10px;"><strong>30 Stages:</strong> Answer 30 advanced questions to complete the story chain.</li>
+            <li style="margin-bottom: 10px;"><strong>Timer:</strong> You have 25 seconds per stage. Time pressure applies!</li>
+            <li style="margin-bottom: 10px;"><strong>Analyze:</strong> Compare Suspect A and Suspect B's testimonies carefully.</li>
+            <li style="margin-bottom: 10px;"><strong>Score:</strong> Earn badges based on your accuracy and speed.</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+
+    <!-- STUDY MATERIAL VIEW -->
+    <main id="study" class="view">
+      <div class="card">
+        <h2 style="margin-bottom: 24px;">Inspector's Grammar Manual</h2>
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('tab1', this)">1. Describing People</button>
+          <button class="tab-btn" onclick="switchTab('tab2', this)">2. Advanced Prefixes</button>
+          <button class="tab-btn" onclick="switchTab('tab3', this)">3. Present Simple vs Continuous</button>
+        </div>
+
+        <div id="tab1" class="tab-content active">
+          <h3 style="margin-bottom: 12px; color: var(--primary);">Describing Appearance & Personality</h3>
+          <p style="margin-bottom: 16px;">In advanced profiling, we use specific vocabulary rather than basic adjectives.</p>
+          <ul style="padding-left: 20px; color: var(--text-muted);">
+            <li><strong>Complexion:</strong> Pale, tanned, dark, fair, olive.</li>
+            <li><strong>Build:</strong> Slender, stocky, muscular, frail, well-built.</li>
+            <li><strong>Nuanced Personality:</strong> Arrogant (too proud), Cynical (distrustful), Empathetic (understands others), Meticulous (pays attention to details).</li>
+          </ul>
+        </div>
+
+        <div id="tab2" class="tab-content">
+          <h3 style="margin-bottom: 12px; color: var(--primary);">Negative Prefixes (The Hard Rules)</h3>
+          <p style="margin-bottom: 16px;">Prefixes alter the meaning to its opposite. Master these specific combinations:</p>
+          <ul style="padding-left: 20px; color: var(--text-muted);">
+            <li><strong>im- :</strong> Used before words starting with 'm' or 'p' (e.g., <em>immature, impolite, impossible</em>).</li>
+            <li><strong>ir- :</strong> Used before words starting with 'r' (e.g., <em>irresponsible, irrational</em>).</li>
+            <li><strong>il- :</strong> Used before words starting with 'l' (e.g., <em>illogical, illegal</em>).</li>
+            <li><strong>in- :</strong> Often used with words starting with 'c', 'd', 't' (e.g., <em>inaccurate, invisible</em>).</li>
+            <li><strong>dis- / un- :</strong> General use, but fixed to specific words (e.g., <em>dissatisfied, unfamiliar, unreliable</em>).</li>
+          </ul>
+        </div>
+
+        <div id="tab3" class="tab-content">
+          <h3 style="margin-bottom: 12px; color: var(--primary);">Present Simple vs Continuous (Stative Verbs)</h3>
+          <p style="margin-bottom: 16px;"><strong>Rule:</strong> Present Continuous is for actions happening NOW. Present Simple is for routines/facts. <strong>BUT watch out for Stative Verbs!</strong></p>
+          <div style="background: #FFF8E5; border-left: 4px solid var(--accent); padding: 16px; border-radius: 8px;">
+            <p><strong>Stative Verbs</strong> (thoughts, senses, emotions, possession) are generally NOT used in continuous form.</p>
+            <ul style="padding-left: 20px; margin-top: 10px;">
+              <li><em>Wrong:</em> I am knowing the suspect.</li>
+              <li><em>Correct:</em> I <strong>know</strong> the suspect. (Present Simple)</li>
+            </ul>
+            <p style="margin-top: 10px;"><strong>Exceptions (Tricky!):</strong> Some verbs change meaning.</p>
+            <ul style="padding-left: 20px;">
+              <li><em>"Think":</em> I <strong>think</strong> he is guilty (opinion = Simple). / I <strong>am thinking</strong> about the case (action = Continuous).</li>
+              <li><em>"Taste":</em> The poison <strong>tastes</strong> sweet (state = Simple). / The detective <strong>is tasting</strong> the coffee (action = Continuous).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- GAME VIEW -->
+    <main id="game" class="view">
+      <div class="game-hud">
+        <div class="hud-stat">
+          <span style="font-size: 1.5rem;">🔥</span> Score: <span id="score-ui">0</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-bar"></div>
+        </div>
+        <div class="hud-stat">
+          <div class="timer-circle" id="timer-ui">25</div>
+        </div>
+      </div>
+
+      <div class="card" style="position: relative;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+          <span style="color: var(--text-muted); font-weight: 700; font-size: 0.9rem; text-transform: uppercase;" id="stage-label">Stage 1 of 30</span>
+          <span style="color: var(--primary); font-weight: 800;" id="theme-label">Topic</span>
+        </div>
+        
+        <h2 id="question-text" style="font-size: 1.4rem; margin-bottom: 24px;">Loading prompt...</h2>
+
+        <!-- Comparison Area for Spot the Difference -->
+        <div id="comparison-area" class="comparison-box" style="display: none;">
+          <div class="testimony">
+            <h4>Witness A (Statement)</h4>
+            <p id="testimony-a"></p>
+          </div>
+          <div class="testimony">
+            <h4>Witness B (CCTV Note)</h4>
+            <p id="testimony-b"></p>
+          </div>
+        </div>
+
+        <div class="options-grid" id="options-container">
+          <!-- Options generated by JS -->
+        </div>
+
+        <div class="feedback" id="feedback-box">
+          <div style="width: 100%;">
+            <strong id="feedback-title" style="font-size: 1.2rem; display: block; margin-bottom: 8px;"></strong>
+            <span id="feedback-text" style="color: var(--text-main);"></span>
+          </div>
+          <button class="btn btn-primary" onclick="nextQuestion()" style="align-self: flex-end;">Next Question ➔</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- RESULT VIEW -->
+    <main id="result" class="view">
+      <div class="card" style="text-align: center; padding: 60px 24px;">
+        <h1 style="font-size: 3rem; margin-bottom: 16px;">Mission Accomplished</h1>
+        <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 32px;">You have successfully navigated Operation Syntax.</p>
+        
+        <div style="font-size: 5rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; line-height: 1;" id="final-score">0</div>
+        <h2 id="rank-title" style="margin-bottom: 40px; color: var(--accent);">Rank: Evaluating...</h2>
+
+        <div class="grid-2" style="max-width: 600px; margin: 0 auto 40px auto; text-align: left; background: var(--bg-color); padding: 24px; border-radius: 16px;">
+          <div>
+            <span style="display: block; color: var(--text-muted); font-size: 0.9rem;">Accuracy</span>
+            <strong style="font-size: 1.2rem;" id="accuracy-ui">0%</strong>
+          </div>
+          <div>
+            <span style="display: block; color: var(--text-muted); font-size: 0.9rem;">Badges Earned</span>
+            <strong style="font-size: 1.2rem; color: var(--primary);">Master Detective</strong>
+          </div>
+        </div>
+
+        <button class="btn btn-outline" onclick="initGame()">Retry Mission</button>
+        <button class="btn btn-primary" onclick="showView('home')">Return to Headquarters</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Database of 30 Hard Level Questions
+    const questionDB = [
+      // Section 1: Spot the Difference (Describing & Tenses)
+      { type: "spot", theme: "Spot the Difference", q: "Analyze the discrepancy regarding the suspect's appearance.", tA: "The suspect is a well-built man with a tanned complexion.", tB: "The suspect has a frail build and pale complexion.", options: ["A describes a muscular/healthy person; B describes a weak/pale person.", "Both describe the exact same person.", "A describes clothing; B describes personality.", "B implies the suspect is athletic."], answer: 0, explanation: "'Well-built' vs 'frail' are opposites describing physical build." },
+      { type: "spot", theme: "Spot the Difference", q: "Identify the grammatical inconsistency in the timeline.", tA: "He usually wears a black trench coat to work.", tB: "He is wearing a red jacket in today's footage.", options: ["A is Present Continuous; B is Present Simple.", "Both are talking about past habits.", "A states a routine (Simple); B states a current action (Continuous).", "There is no difference in tense."], answer: 2, explanation: "'Usually wears' (routine/simple) vs 'is wearing' (current action/continuous)." },
+      { type: "spot", theme: "Spot the Difference", q: "Which statement incorrectly uses a stative verb?", tA: "I am believing that he is the primary suspect.", tB: "I believe that he is the primary suspect.", options: ["Statement A is incorrect.", "Statement B is incorrect.", "Both are correct.", "Neither is correct."], answer: 0, explanation: "'Believe' is a stative verb and cannot be used in the continuous form ('am believing')." },
+      { type: "spot", theme: "Spot the Difference", q: "Spot the difference in personality traits.", tA: "The suspect is known to be highly meticulous and empathetic.", tB: "The suspect is acting careless and cynical right now.", options: ["A means he is messy; B means he is careful.", "A means detail-oriented and caring; B means sloppy and distrustful.", "A means lazy; B means hardworking.", "They mean exactly the same thing."], answer: 1, explanation: "Meticulous = careful/detailed. Empathetic = caring. Careless = sloppy. Cynical = distrustful." },
+      { type: "spot", theme: "Spot the Difference", q: "Analyze the sensory verbs.", tA: "The detective is tasting the coffee to check for poison.", tB: "The coffee tastes bitter.", options: ["A uses 'taste' as a state; B uses it as an action.", "A uses 'taste' as an action (Continuous); B uses it as a state (Simple).", "Both should use Present Simple.", "Both should use Present Continuous."], answer: 1, explanation: "When 'taste' is a deliberate action, continuous is allowed. When describing the quality of the coffee, simple is required." },
+      
+      // Section 2: Advanced Prefixes
+      { type: "standard", theme: "Advanced Prefixes", q: "The suspect’s alibi is completely lacking logic. It is highly _________.", options: ["unlogical", "dislogical", "illogical", "irlogical"], answer: 2, explanation: "Words starting with 'l' usually take the 'il-' prefix." },
+      { type: "standard", theme: "Advanced Prefixes", q: "He abandoned the stolen vehicle in the middle of the road. His behavior is extremely _________.", options: ["unresponsible", "irresponsible", "imresponsible", "disresponsible"], answer: 1, explanation: "Words starting with 'r' usually take the 'ir-' prefix." },
+      { type: "standard", theme: "Advanced Prefixes", q: "The witness provided details that do not match the evidence. The report is _________.", options: ["inaccurate", "unaccurate", "imaccurate", "disaccurate"], answer: 0, explanation: "'Accurate' takes the prefix 'in-'." },
+      { type: "standard", theme: "Advanced Prefixes", q: "The victim was completely _________ with the police's slow response.", options: ["unsatisfied", "dissatisfied", "insatisfied", "ilsatisfied"], answer: 1, explanation: "The correct prefix for satisfied in this context is 'dis-'." },
+      { type: "standard", theme: "Advanced Prefixes", q: "It is strictly _________ to cross the yellow tape at the crime scene.", options: ["unlegal", "imlegal", "illegal", "dislegal"], answer: 2, explanation: "'Legal' starts with 'l', so it becomes 'illegal'." },
+      { type: "standard", theme: "Advanced Prefixes", q: "The fingerprints found on the glass were unfortunately _________.", options: ["unvisible", "disvisible", "invisible", "imvisible"], answer: 2, explanation: "'Visible' becomes 'invisible'." },
+      { type: "standard", theme: "Advanced Prefixes", q: "The detective felt that solving the case by midnight was entirely _________.", options: ["improbable", "unprobable", "disprobable", "inprobable"], answer: 0, explanation: "Words starting with 'p' or 'm' often take 'im-'." },
+      { type: "standard", theme: "Advanced Prefixes", q: "The suspect gave a very rude and _________ reply to the inspector.", options: ["unpolite", "impolite", "dispolite", "irpolite"], answer: 1, explanation: "'Polite' takes 'im-'." },
+      { type: "standard", theme: "Advanced Prefixes", q: "The handwriting on the ransom note is messy and completely _________.", options: ["unlegible", "illegible", "inlegible", "dislegible"], answer: 1, explanation: "'Legible' starts with 'l', taking the 'il-' prefix." },
+      { type: "standard", theme: "Advanced Prefixes", q: "The suspect's heartbeat is very _________ during the interrogation.", options: ["unregular", "irregular", "disregular", "imregular"], answer: 1, explanation: "'Regular' starts with 'r', taking the 'ir-' prefix." },
+
+      // Section 3: Story Chain (Describing & Tenses Combined)
+      { type: "standard", theme: "Story Chain: Part 1", q: "Inspector Chen arrives at the manor. 'I _________ (look) at the shattered window right now,' he whispers into his radio.", options: ["am looking", "look", "looks", "is looking"], answer: 0, explanation: "'Right now' indicates a current action: am looking." },
+      { type: "standard", theme: "Story Chain: Part 2", q: "The butler approaches. He _________ (seem) very nervous about the situation.", options: ["is seeming", "seems", "seem", "are seeming"], answer: 1, explanation: "'Seem' is a stative verb and is never used in the continuous form." },
+      { type: "standard", theme: "Story Chain: Part 3", q: "Chen notices the butler's physical features. 'He has a _________ build and a pale complexion.'", options: ["curly", "stocky", "polite", "cynical"], answer: 1, explanation: "'Stocky' describes a physical build (broad and sturdy)." },
+      { type: "standard", theme: "Story Chain: Part 4", q: "'What _________ (you / do) at the moment?' Chen asks the maid.", options: ["do you do", "you are doing", "are you doing", "does you do"], answer: 2, explanation: "Asking about an action happening at the moment requires Present Continuous: are you doing." },
+      { type: "standard", theme: "Story Chain: Part 5", q: "The maid replies, 'I _________ (clean) the library every evening, but tonight I _________ (stay) in the kitchen.'", options: ["am cleaning / stay", "clean / am staying", "cleans / stay", "cleaning / staying"], answer: 1, explanation: "'Every evening' = routine (clean). 'Tonight' = temporary deviation (am staying)." },
+      { type: "standard", theme: "Story Chain: Part 6", q: "Chen finds a hidden safe. 'This mechanism is highly _________ (tidak biasa)!'", options: ["incommon", "unusual", "disusual", "imusual"], answer: 1, explanation: "The correct negative form for usual is 'unusual'." },
+      { type: "standard", theme: "Story Chain: Part 7", q: "He touches the safe. 'It _________ (feel) cold to the touch.'", options: ["is feeling", "feels", "feel", "feeling"], answer: 1, explanation: "When 'feel' describes the quality of an object, it is a stative verb (feels)." },
+      { type: "standard", theme: "Story Chain: Part 8", q: "Suddenly, footsteps echo. Someone _________ (run) down the hallway right now!", options: ["runs", "is running", "run", "are running"], answer: 1, explanation: "An action happening at the exact moment of speaking requires Present Continuous." },
+      { type: "standard", theme: "Story Chain: Part 9", q: "Chen confronts the suspect. 'Your explanation is completely _________. It doesn't make any sense!'", options: ["irrational", "unrational", "inrational", "disrational"], answer: 0, explanation: "'Rational' takes the 'ir-' prefix." },
+      { type: "standard", theme: "Story Chain: Part 10", q: "'I _________ (not / own) a red coat!' the suspect shouts.", options: ["am not owning", "doesn't own", "do not own", "not owns"], answer: 2, explanation: "'Own' (possession) is a stative verb and must be in Present Simple." },
+      
+      // Section 4: Advanced Gauntlet (Mixed Hard Mode)
+      { type: "standard", theme: "Final Gauntlet", q: "Which sentence is grammatically correct?", options: ["She is having three expensive cars.", "I am preferring tea over coffee.", "The chef is smelling the meat.", "The soup is smelling delicious."], answer: 2, explanation: "'Smell' as a deliberate action by the chef can be continuous. 'Have' (possession), 'prefer', and 'smell' (quality) cannot." },
+      { type: "standard", theme: "Final Gauntlet", q: "The suspect is known for being extremely _________; he never shares credit and only thinks of himself.", options: ["empathetic", "generous", "arrogant", "meticulous"], answer: 2, explanation: "Thinking only of oneself and lacking humility defines 'arrogant'." },
+      { type: "standard", theme: "Final Gauntlet", q: "The fingerprints are a match. It is _________ to deny the evidence now.", options: ["unpossible", "impossible", "dispossible", "inpossible"], answer: 1, explanation: "'Possible' uses 'im-'." },
+      { type: "standard", theme: "Final Gauntlet", q: "Choose the correct sentence to describe a temporary habit:", options: ["I live in London.", "I am living in London this month.", "I lives in London.", "I living in London."], answer: 1, explanation: "Present Continuous ('am living') is used for temporary situations." },
+      { type: "standard", theme: "Final Gauntlet", q: "Case closed. The detective _________ (think) about taking a long vacation next week.", options: ["thinks", "is thinking", "think", "thinking"], answer: 1, explanation: "When 'think' means 'considering' or 'planning', it is an action and uses Continuous." }
+    ];
+
+    // Game State
+    let currentIndex = 0;
+    let score = 0;
+    let timerInterval;
+    let timeLeft = 25;
+    let isAnswered = false;
+
+    // Audio Context (Web Audio API)
+    let audioCtx;
+    function playSound(type) {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (type === 'correct') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+        osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+        gain.gain.setValueAtTime(0, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.3);
+      } else if (type === 'wrong') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(150, audioCtx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.3);
+      } else if (type === 'tick') {
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.1);
+      }
+    }
+
+    // View Management
+    function showView(viewId) {
+      document.querySelectorAll('.view').forEach(v => {
+        v.classList.remove('active');
+      });
+      document.getElementById(viewId).classList.add('active');
+    }
+
+    // Tab Management
+    function switchTab(tabId, btnElement) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      btnElement.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // Game Core
+    function initGame() {
+      currentIndex = 0;
+      score = 0;
+      showView('game');
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      isAnswered = false;
+      timeLeft = 25;
+      const q = questionDB[currentIndex];
+      
+      // Update UI
+      document.getElementById('score-ui').innerText = score;
+      document.getElementById('stage-label').innerText = `Stage ${currentIndex + 1} of ${questionDB.length}`;
+      document.getElementById('theme-label').innerText = q.theme;
+      document.getElementById('question-text').innerText = q.q;
+      
+      // Progress Bar
+      const progressPercent = ((currentIndex) / questionDB.length) * 100;
+      document.getElementById('progress-bar').style.width = progressPercent + '%';
+
+      // Spot the Difference logic
+      const compArea = document.getElementById('comparison-area');
+      if (q.type === 'spot') {
+        compArea.style.display = 'grid';
+        document.getElementById('testimony-a').innerText = q.tA;
+        document.getElementById('testimony-b').innerText = q.tB;
+      } else {
+        compArea.style.display = 'none';
+      }
+
+      // Render Options
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.innerHTML = `<span style="background: var(--primary); color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; font-size: 0.9rem;">${String.fromCharCode(65 + idx)}</span> ${opt}`;
+        btn.onclick = () => selectAnswer(idx, btn);
+        optionsContainer.appendChild(btn);
+      });
+
+      // Hide Feedback
+      document.getElementById('feedback-box').classList.remove('active');
+
+      // Start Timer
+      updateTimerUI();
+      clearInterval(timerInterval);
+      timerInterval = setInterval(tick, 1000);
+    }
+
+    function tick() {
+      if (isAnswered) return;
+      timeLeft--;
+      updateTimerUI();
+      
+      if (timeLeft <= 5 && timeLeft > 0) playSound('tick');
+      
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        handleTimeout();
+      }
+    }
+
+    function updateTimerUI() {
+      const timerUI = document.getElementById('timer-ui');
+      timerUI.innerText = timeLeft;
+      if (timeLeft <= 5) timerUI.classList.add('warning');
+      else timerUI.classList.remove('warning');
+    }
+
+    function handleTimeout() {
+      if (isAnswered) return;
+      isAnswered = true;
+      playSound('wrong');
+      
+      const q = questionDB[currentIndex];
+      const buttons = document.querySelectorAll('.option');
+      buttons.forEach(b => b.classList.add('disabled'));
+      buttons[q.answer].classList.add('correct');
+
+      showFeedback(false, "Time's Up!", q.explanation);
+    }
+
+    function selectAnswer(selectedIndex, btnElement) {
+      if (isAnswered) return;
+      isAnswered = true;
+      clearInterval(timerInterval);
+      
+      const q = questionDB[currentIndex];
+      const buttons = document.querySelectorAll('.option');
+      buttons.forEach(b => b.classList.add('disabled'));
+
+      if (selectedIndex === q.answer) {
+        playSound('correct');
+        btnElement.classList.add('correct');
+        let points = 100 + (timeLeft * 2); // Time bonus
+        score += points;
+        document.getElementById('score-ui').innerText = score;
+        showFeedback(true, "Correct Assessment!", q.explanation);
+      } else {
+        playSound('wrong');
+        btnElement.classList.add('wrong');
+        buttons[q.answer].classList.add('correct');
+        showFeedback(false, "Incorrect Analysis.", q.explanation);
+      }
+    }
+
+    function showFeedback(isCorrect, title, explanation) {
+      const fbBox = document.getElementById('feedback-box');
+      fbBox.className = `feedback active ${isCorrect ? 'correct' : 'wrong'}`;
+      document.getElementById('feedback-title').innerText = title;
+      document.getElementById('feedback-text').innerText = explanation;
+    }
+
+    function nextQuestion() {
+      if (!isAnswered) return;
+      currentIndex++;
+      if (currentIndex < questionDB.length) {
+        loadQuestion();
+      } else {
+        endGame();
+      }
+    }
+
+    function endGame() {
+      showView('result');
+      document.getElementById('final-score').innerText = score;
+      
+      // Max score is roughly 30 * (100 + 50) = 4500
+      let accuracy = Math.round((score / 4500) * 100);
+      if (accuracy > 100) accuracy = 100;
+      document.getElementById('accuracy-ui').innerText = accuracy + '%';
+
+      let rank = "";
+      if (score > 4000) rank = "S-Rank: Chief Inspector";
+      else if (score > 3000) rank = "A-Rank: Senior Detective";
+      else if (score > 2000) rank = "B-Rank: Field Agent";
+      else rank = "C-Rank: Rookie (Requires Retraining)";
+
+      document.getElementById('rank-title').innerText = rank;
+
+      if (score > 3000) triggerConfetti();
+    }
+
+    // Canvas Confetti System
+    function triggerConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = [];
+      const colors = ['#4318FF', '#00B5D8', '#FFB547', '#05CD99'];
+
+      for (let i = 0; i < 150; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          w: Math.random() * 10 + 5,
+          h: Math.random() * 10 + 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedY: Math.random() * 4 + 2,
+          speedX: Math.random() * 4 - 2,
+          rot: Math.random() * 360,
+          rotSpeed: Math.random() * 10 - 5
+        });
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let active = false;
+        particles.forEach(p => {
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.rot += p.rotSpeed;
+          if (p.y < canvas.height) active = true;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot * Math.PI / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+          ctx.restore();
+        });
+
+        if (active) requestAnimationFrame(render);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      render();
+    }
+  </script>
+</body>
+</html>
